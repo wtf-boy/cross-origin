@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            padding-top: 300px;
+            text-align: center;
+        }
+
+        .btn {
+            margin: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        请求域名: <input id="txtUrl" value="https://www.b.com">
+    </div>
+
+    <div>
+        setCookie:
+        <button class="btn" onclick="setCookie(false,false)">withCredentials:false,same-site:false</button>
+
+        <button class="btn" onclick="setCookie(false,true)">withCredentials:false,same-site:true</button>
+
+        <button class="btn" onclick="setCookie(true,false)">withCredentials:true,same-site:false</button>
+
+        <button class="btn" onclick="setCookie(true,true)">withCredentials:true,same-site:true</button>
+    </div>
+
+
+    <div>
+        getCookie:
+        <button class="btn" onclick="getCookie(false)">withCredentials:false</button>
+        <button class="btn" onclick="getCookie(true)">withCredentials:true</button>
+
+        <div id="result"></div>
+    </div>
+</div>
+</body>
+<script>
+    function request(path, withCredentials, callback) {
+        const url = $("#txtUrl").val()
+        var options = {
+            url: url + path,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                callback && callback(data)
+            }
+        }
+        if (withCredentials) {
+            options.xhrFields = {
+                withCredentials: true,
+            }
+        }
+        $.ajax(options);
+    }
+
+    function getCookie(withCredentials) {
+        request('/api/get-cookie', withCredentials, function (data) {
+            $("#result").text("withCredentials:" + withCredentials + ",获取结果为:" + data.data)
+        })
+    }
+
+    function setCookie(withCredentials, sameSite) {
+        if (sameSite) {
+            request('/api/set-cookie-same-site', withCredentials)
+        } else {
+            request('/api/set-cookie', withCredentials)
+        }
+    }
+</script>
+</html>
