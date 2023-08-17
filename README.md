@@ -183,6 +183,13 @@ server {
 -  same-site 对于使用HTTPS协议的API，浏览器会存储cookie，不论`samesite`的值； 对于使用HTTP协议的API，浏览器会存储`samesite`的值为`Lax`和`Strict`的cookie； XHR请求会带上目标域的cookie； 
 -  cross-site 对于HTTPS协议的API返回的cookie，如果设置了属性：`secure; samesite=none`，则浏览器会存储cookie。XHR请求也会带上目标域的cookie：
 
+
+附SameSite各值Cookie发送情况:
+
+![image](https://github.com/wtf-boy/cross-origin/assets/11848141/ce173d5c-eb18-4fd7-8f90-a1536dbd722f)
+
+
+
 ## 其它
 
 后端API同时设置`Access-Control-Allow-Credentials`的值为`true`，`Access-Control-Allow-Origin`的值为`*`会报The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the CORS policy by listing individual origins if credentials needs to be supported.错误。
